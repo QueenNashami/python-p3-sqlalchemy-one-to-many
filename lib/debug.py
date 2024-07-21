@@ -1,13 +1,18 @@
-#!/usr/bin/env python3
+# lib/debug.py
 
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from models import Base, engine, Game, Review
 
-from models import Game, Review
+# Create a new session
+Session = sessionmaker(bind=engine)
+session = Session()
 
-if __name__ == '__main__':
-    engine = create_engine('sqlite:///one_to_many.db')
-    Session = sessionmaker(bind=engine)
-    session = Session()
+# Access the first review
+review = session.query(Review).first()
+print(review)
+print(review.game)
 
-    import ipdb; ipdb.set_trace()
+# Access the first game
+game = session.query(Game).first()
+print(game)
+print(game.reviews)
